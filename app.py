@@ -1,7 +1,11 @@
 import streamlit as st
 import os
 import torch
+
 from transformers import AutoTokenizer, AutoModelForCausalLM
+
+tokenizer = AutoTokenizer.from_pretrained("ibm-granite/granite-3.3-2b-instruct")
+model = AutoModelForCausalLM.from_pretrained("ibm-granite/granite-3.3-2b-instruct")
 
 # ✅ Load Hugging Face token from Streamlit Secrets
 hf_token = st.secrets["HF_TOKEN"]  # Must be set in Streamlit Cloud settings
