@@ -3,8 +3,9 @@ import os
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
 
-# ✅ Load Hugging Face token from Streamlit Secrets
-hf_token = st.secrets["HF_TOKEN"]  # Must be set in Streamlit Cloud settings
+# ✅ Load Hugging Face token from secrets
+hf_token = st.secrets["HF_TOKEN"]
+os.environ["HUGGINGFACEHUB_API_TOKEN"] = hf_token  # 👈 CRUCIAL for Streamlit deployment
 
 # ✅ Page configuration
 st.set_page_config(page_title="HealthAI", page_icon="🩺", layout="centered")
@@ -13,7 +14,7 @@ st.set_page_config(page_title="HealthAI", page_icon="🩺", layout="centered")
 st.sidebar.title("🩺 HealthAI Navigation")
 page = st.sidebar.radio("Go to", ["🏠 Home", "🗣️ Patient Chat", "🔍 Disease Prediction", "💊 Treatment Plan", "📊 Health Analytics"])
 
-# ✅ Cache model loading
+# ✅ Load model and tokenizer with caching
 @st.cache_resource
 def load_model():
     try:
@@ -26,10 +27,10 @@ def load_model():
         )
         return tokenizer, model
     except Exception as e:
-        st.error("🔐 Failed to load model. Check if Hugging Face token is correct and access to the model is granted.")
+        st.error("❌ Failed to load model. Please check Hugging Face token and access.")
+        st.exception(e)  # 👈 Shows the real error
         st.stop()
 
-# ✅ Load model
 tokenizer, model = load_model()
 
 # ✅ Home Page
