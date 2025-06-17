@@ -20,6 +20,7 @@ page = st.sidebar.radio("Go to", ["🏠 Home", "🗣️ Patient Chat", "🔍 Dis
 @st.cache_resource
 def load_model():
     try:
+        st.info("⏳ Trying to load model...")  # Show loading status
         tokenizer = AutoTokenizer.from_pretrained("ibm-granite/granite-3.3-2b-instruct", token=hf_token)
         model = AutoModelForCausalLM.from_pretrained(
             "ibm-granite/granite-3.3-2b-instruct",
@@ -27,10 +28,12 @@ def load_model():
             device_map="auto",
             token=hf_token
         )
+        st.success("✅ Model loaded successfully!")
         return tokenizer, model
     except Exception as e:
-        st.error("🔐 Failed to load model. Check if Hugging Face token is correct and access to the model is granted.")
+        st.exception(e)  # 👈 SHOWS the full exception with traceback
         st.stop()
+
 
 # ✅ Load model
 tokenizer, model = load_model()
