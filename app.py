@@ -27,7 +27,7 @@ def load_model():
         )
         return tokenizer, model
     except Exception as e:
-        st.error("🔐 Failed to load model. Check if Hugging Face token is correct and access to the model is granted.")
+        st.error("🔐ooookkk.")
         st.stop()
 
 # ✅ Load model
