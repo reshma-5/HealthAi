@@ -3,28 +3,29 @@ import os
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
 
-# ✅ Load Hugging Face token from secrets
+# ✅ Load Hugging Face token from Streamlit secrets
 hf_token = st.secrets["HF_TOKEN"]
+model_id = "mistralai/Mistral-7B-Instruct-v0.1"
 
-# ✅ Page settings
+# ✅ Page setup
 st.set_page_config(page_title="HealthAI", page_icon="🩺", layout="centered")
 st.sidebar.title("🩺 HealthAI Navigation")
 page = st.sidebar.radio("Go to", ["🏠 Home", "🗣️ Patient Chat", "🔍 Disease Prediction", "💊 Treatment Plan", "📊 Health Analytics"])
 
-# ✅ Load model with caching
+# ✅ Load model (cached)
 @st.cache_resource
 def load_model():
     try:
-        tokenizer = AutoTokenizer.from_pretrained("ibm-granite/granite-3.3-2b-instruct", token=hf_token)
+        tokenizer = AutoTokenizer.from_pretrained(model_id, token=hf_token)
         model = AutoModelForCausalLM.from_pretrained(
-            "ibm-granite/granite-3.3-2b-instruct",
+            model_id,
             torch_dtype=torch.float16,
             device_map="auto",
             token=hf_token
         )
         return tokenizer, model
     except Exception as e:
-        st.error("❌ Failed to load model. Please check Hugging Face token or model access.")
+        st.error("❌ Failed to load model.")
         st.exception(e)
         st.stop()
 
@@ -33,7 +34,7 @@ tokenizer, model = load_model()
 # ✅ Home Page
 if page == "🏠 Home":
     st.title("🏠 Welcome to HealthAI")
-    st.markdown("HealthAI is your intelligent healthcare assistant powered by **IBM Granite**.")
+    st.markdown("HealthAI is your intelligent healthcare assistant powered by AI.")
     st.markdown("Use the sidebar to explore features like Chat, Disease Prediction, Treatment Plans, and Health Analytics.")
 
 # ✅ Patient Chat
@@ -42,7 +43,7 @@ elif page == "🗣️ Patient Chat":
     user_query = st.text_input("Ask a health-related question:")
     if user_query:
         with st.spinner("🧠 Thinking..."):
-            prompt = f"You are a helpful medical assistant. Answer the following question:\n{user_query}"
+            prompt = f"[INST] You are a helpful medical assistant. Answer the following question:\n{user_query} [/INST]"
             inputs = tokenizer(prompt, return_tensors="pt", padding=True)
             inputs = {k: v.to(model.device) for k, v in inputs.items()}
             outputs = model.generate(**inputs, max_new_tokens=200, temperature=0.7)
@@ -55,7 +56,7 @@ elif page == "🔍 Disease Prediction":
     symptoms = st.text_area("📝 Describe your symptoms (e.g., fever, cough, fatigue):")
     if symptoms:
         with st.spinner("🧠 Analyzing symptoms..."):
-            prompt = f"A patient reports: {symptoms}. List 3–5 possible diseases and suggest what they should do next."
+            prompt = f"[INST] A patient reports: {symptoms}. List 3–5 possible diseases and suggest what they should do next. [/INST]"
             inputs = tokenizer(prompt, return_tensors="pt", padding=True)
             inputs = {k: v.to(model.device) for k, v in inputs.items()}
             outputs = model.generate(**inputs, max_new_tokens=200, temperature=0.7)
@@ -68,7 +69,7 @@ elif page == "💊 Treatment Plan":
     condition = st.text_input("Enter diagnosed condition (e.g., Asthma, Diabetes):")
     if condition:
         with st.spinner("📋 Generating treatment plan..."):
-            prompt = f"A patient is diagnosed with {condition}. Provide a detailed treatment plan with medication, lifestyle, and precautions."
+            prompt = f"[INST] A patient is diagnosed with {condition}. Provide a detailed treatment plan with medication, lifestyle, and precautions. [/INST]"
             inputs = tokenizer(prompt, return_tensors="pt", padding=True)
             inputs = {k: v.to(model.device) for k, v in inputs.items()}
             outputs = model.generate(**inputs, max_new_tokens=300, temperature=0.7)
