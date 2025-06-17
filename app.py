@@ -1,10 +1,7 @@
 import streamlit as st
 import os
 import torch
-
 from transformers import AutoTokenizer, AutoModelForCausalLM
-
-
 
 # ✅ Load Hugging Face token from Streamlit Secrets
 hf_token = st.secrets["HF_TOKEN"]  # Must be set in Streamlit Cloud settings
@@ -20,19 +17,17 @@ page = st.sidebar.radio("Go to", ["🏠 Home", "🗣️ Patient Chat", "🔍 Dis
 @st.cache_resource
 def load_model():
     try:
-        st.info("⏳ Trying to load model...")
-        tokenizer = AutoTokenizer.from_pretrained("mistralai/Mistral-7B-Instruct-v0.1")
+        tokenizer = AutoTokenizer.from_pretrained("ibm-granite/granite-3.3-2b-instruct", token=hf_token)
         model = AutoModelForCausalLM.from_pretrained(
-            "mistralai/Mistral-7B-Instruct-v0.1",
+            "ibm-granite/granite-3.3-2b-instruct",
             torch_dtype=torch.float16,
-            device_map="auto"
+            device_map="auto",
+            token=hf_token
         )
-        st.success("✅ Model loaded successfully!")
         return tokenizer, model
     except Exception as e:
-        st.exception(e)
+        st.error("🔐 Failed to load model. Check if Hugging Face token is correct and access to the model is granted.")
         st.stop()
-
 
 # ✅ Load model
 tokenizer, model = load_model()
