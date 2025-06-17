@@ -4,6 +4,7 @@ import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
 
 # ✅ Load Hugging Face token from secrets
+import streamlit as st
 hf_token = st.secrets["HF_TOKEN"]
 os.environ["HUGGINGFACEHUB_API_TOKEN"] = hf_token  # 👈 CRUCIAL for Streamlit deployment
 
