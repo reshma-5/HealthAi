@@ -20,18 +20,17 @@ page = st.sidebar.radio("Go to", ["🏠 Home", "🗣️ Patient Chat", "🔍 Dis
 @st.cache_resource
 def load_model():
     try:
-        st.info("⏳ Trying to load model...")  # Show loading status
-        tokenizer = AutoTokenizer.from_pretrained("ibm-granite/granite-3.3-2b-instruct", token=hf_token)
+        st.info("⏳ Trying to load model...")
+        tokenizer = AutoTokenizer.from_pretrained("mistralai/Mistral-7B-Instruct-v0.1")
         model = AutoModelForCausalLM.from_pretrained(
-            "ibm-granite/granite-3.3-2b-instruct",
+            "mistralai/Mistral-7B-Instruct-v0.1",
             torch_dtype=torch.float16,
-            device_map="auto",
-            token=hf_token
+            device_map="auto"
         )
         st.success("✅ Model loaded successfully!")
         return tokenizer, model
     except Exception as e:
-        st.exception(e)  # 👈 SHOWS the full exception with traceback
+        st.exception(e)
         st.stop()
 
 
