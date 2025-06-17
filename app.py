@@ -20,9 +20,9 @@ page = st.sidebar.radio("Go to", ["🏠 Home", "🗣️ Patient Chat", "🔍 Dis
 @st.cache_resource
 def load_model():
     try:
-        tokenizer = AutoTokenizer.from_pretrained("ibm-granite/granite-3.3-2b-instruct", token=hf_token)
+        tokenizer = AutoTokenizer.from_pretrained("mistralai/Mistral-7B-Instruct-v0.1", token=hf_token)
         model = AutoModelForCausalLM.from_pretrained(
-            "ibm-granite/granite-3.3-2b-instruct",
+            "mistralai/Mistral-7B-Instruct-v0.1",
             torch_dtype=torch.float16,
             device_map="auto",
             token=hf_token
