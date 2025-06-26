@@ -119,7 +119,7 @@ Visualizations and AI-generated insights are provided based on the uploaded data
 - Python  
 - Streamlit  
 - Plotly  
-- IBM Granite 3.3B Instruct v2 (via Hugging Face API)  
+- IBM Granite 13B Instruct v2   
 - GitHub for version control  
 
 ---
