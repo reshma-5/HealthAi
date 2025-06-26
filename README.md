@@ -20,7 +20,7 @@ HealthAI is a smart AI-powered healthcare assistant that delivers interactive, r
 - 💊 Treatment Plans – Get AI-generated treatment plans for diagnosed conditions  
 - 📊 Health Analytics – Upload CSV files and view health trends with visual insights  
 
-Built using Python and Streamlit, and integrated with the IBM Granite 3.3B Instruct v2 model via Hugging Face, HealthAI simplifies healthcare interactions and improves accessibility to medical insights.
+Built using Python and Streamlit, and integrated with the IBM Granite 13B Instruct v2 model via Hugging Face, HealthAI simplifies healthcare interactions and improves accessibility to medical insights.
 
 ---
 
