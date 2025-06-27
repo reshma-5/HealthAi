@@ -5,7 +5,7 @@ import os
 from ibm_watsonx_ai.foundation_models import ModelInference
 
 # 🔐 Load credentials
-api_key = st.secrets.get("IBM_API_KEY")
+api_key = st.secrets.get("IBM_API_KEY") 
 project_id = st.secrets.get("IBM_PROJECT_ID")
 base_url = "https://us-south.ml.cloud.ibm.com"
 
