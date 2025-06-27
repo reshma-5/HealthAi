@@ -38,7 +38,7 @@ Built using Python and Streamlit, and integrated with the IBM Granite 13B Instru
 ## 📽️ Demo Video
 
 🎥 Watch our full demo here:  
-🔗 https://youtu.be/cwCj4w5zgPM?si=J06R0qJTyS1aPfW-
+🔗 https://youtu.be/nsW2YwRz4VQ?si=kzSOjts3191NPQiy
 
 ---
 
