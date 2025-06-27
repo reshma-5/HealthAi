@@ -1,0 +1,6 @@
+streamlit
+pandas
+plotly
+os
+requests
+ibm-watsonx-ai
